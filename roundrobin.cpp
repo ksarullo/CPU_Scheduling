@@ -16,9 +16,11 @@ void roundrobin(int num_procs, int burst_time[], int quantum) {
 				done = false;
 				if (burst_remain[i] > quantum) {
 					t += quantum;
+					cout << "Process " << i+1 << ": " << t << endl;
 					burst_remain[i] -= quantum;
 				} else {
 					t += burst_remain[i];
+					cout << "Process " << i+1 << ": " << t << endl;
 					waiting[i] = t - burst_time[i];
 					burst_remain[i] = 0;
 				}

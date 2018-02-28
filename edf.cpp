@@ -29,15 +29,19 @@ void roundrobin(int num_procs, int burst_time[], int periods[]) {
 	int i;
 	while(true) {
 		for(i = 0; i < num_procs; i++) {
-			if(burst_remain[i] < period_times[next_deadline]) {
+			//cout << burst_remain[i] << " " << period_times[next_deadline] << endl;
+			//cout << t + burst_remain[i] << " " << period_times[next_deadline] << endl;
+			if(t + burst_remain[i] < period_times[next_deadline]) {
 				t += burst_remain[i];
+				burst_remain[i] = burst_time[i];
 				cout << "Process " << i+1 << ": " << t << endl;
 			} else {
-				burst_remain[i] -= (period_times[i] - t);
-				t += (period_times[i] - t);
+				burst_remain[i] = burst_remain[i] - (period_times[next_deadline] - t);
+				t += (period_times[next_deadline] - t);
+				cout <<  "Process " << i+1 << ": " << t << endl;
 				period_times[next_deadline] += periods[next_deadline];
 				next_deadline = sort(period_times, num_procs);
-				i = next_deadline;
+				i = next_deadline - 1;
 	
 			}
 		}
